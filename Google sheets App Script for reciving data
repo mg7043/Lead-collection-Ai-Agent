@@ -1,0 +1,21 @@
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "alive" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    data.name || "",
+    data.phone || "",
+    data.source || "Gym Bot",
+    new Date()
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: "success" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
